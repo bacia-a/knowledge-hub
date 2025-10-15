@@ -1,0 +1,1 @@
+2025/10/15 20:19:19 [crit] 4613#4613: *201 SSL_do_handshake() failed (SSL: error:0A00006C:SSL routines::bad key share) while SSL handshaking, client: 106.75.133.148, server: 0.0.0.0:443

@@ -1,0 +1,534 @@
+[2025-10-14 08:55:08 +0000] [1678] [INFO] Starting gunicorn 23.0.0
+[2025-10-14 08:55:08 +0000] [1678] [INFO] Listening at: http://127.0.0.1:8000 (1678)
+[2025-10-14 08:55:08 +0000] [1678] [INFO] Using worker: sync
+[2025-10-14 08:55:08 +0000] [1679] [INFO] Booting worker with pid: 1679
+[2025-10-14 08:55:08 +0000] [1680] [INFO] Booting worker with pid: 1680
+[2025-10-14 08:55:08 +0000] [1681] [INFO] Booting worker with pid: 1681
+Not Found: /api/admin/
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /api/admin/
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /admin/
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+[2025-10-14 09:03:19 +0000] [1678] [INFO] Handling signal: term
+[2025-10-14 09:03:19 +0000] [1679] [INFO] Worker exiting (pid: 1679)
+[2025-10-14 09:03:19 +0000] [1681] [INFO] Worker exiting (pid: 1681)
+[2025-10-14 09:03:19 +0000] [1680] [INFO] Worker exiting (pid: 1680)
+[2025-10-14 09:03:19 +0000] [1678] [INFO] Shutting down: Master
+[2025-10-14 09:03:27 +0000] [1951] [INFO] Starting gunicorn 23.0.0
+[2025-10-14 09:03:27 +0000] [1951] [INFO] Listening at: http://127.0.0.1:8000 (1951)
+[2025-10-14 09:03:27 +0000] [1951] [INFO] Using worker: sync
+[2025-10-14 09:03:27 +0000] [1952] [INFO] Booting worker with pid: 1952
+[2025-10-14 09:03:27 +0000] [1953] [INFO] Booting worker with pid: 1953
+[2025-10-14 09:03:27 +0000] [1954] [INFO] Booting worker with pid: 1954
+[2025-10-14 09:04:09 +0000] [1951] [INFO] Handling signal: term
+[2025-10-14 09:04:09 +0000] [1954] [INFO] Worker exiting (pid: 1954)
+[2025-10-14 09:04:09 +0000] [1952] [INFO] Worker exiting (pid: 1952)
+[2025-10-14 09:04:09 +0000] [1953] [INFO] Worker exiting (pid: 1953)
+[2025-10-14 09:04:09 +0000] [1951] [INFO] Shutting down: Master
+[2025-10-14 09:04:10 +0000] [1961] [INFO] Starting gunicorn 23.0.0
+[2025-10-14 09:04:10 +0000] [1961] [INFO] Listening at: http://127.0.0.1:8000 (1961)
+[2025-10-14 09:04:10 +0000] [1961] [INFO] Using worker: sync
+[2025-10-14 09:04:10 +0000] [1962] [INFO] Booting worker with pid: 1962
+[2025-10-14 09:04:10 +0000] [1963] [INFO] Booting worker with pid: 1963
+[2025-10-14 09:04:10 +0000] [1964] [INFO] Booting worker with pid: 1964
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /admin/
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: 'www.devcook.cn'. You may need to add 'www.devcook.cn' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'www.devcook.cn'. You may need to add 'www.devcook.cn' to ALLOWED_HOSTS.
+Bad Request: /robots.txt
+Invalid HTTP_HOST header: 'www.devcook.cn'. You may need to add 'www.devcook.cn' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'www.devcook.cn'. You may need to add 'www.devcook.cn' to ALLOWED_HOSTS.
+Bad Request: /
+[2025-10-14 09:07:33 +0000] [1961] [INFO] Handling signal: term
+[2025-10-14 09:07:33 +0000] [1962] [INFO] Worker exiting (pid: 1962)
+[2025-10-14 09:07:33 +0000] [1964] [INFO] Worker exiting (pid: 1964)
+[2025-10-14 09:07:33 +0000] [1963] [INFO] Worker exiting (pid: 1963)
+[2025-10-14 09:07:33 +0000] [1961] [INFO] Shutting down: Master
+[2025-10-14 09:07:34 +0000] [1983] [INFO] Starting gunicorn 23.0.0
+[2025-10-14 09:07:34 +0000] [1983] [INFO] Listening at: http://127.0.0.1:8000 (1983)
+[2025-10-14 09:07:34 +0000] [1983] [INFO] Using worker: sync
+[2025-10-14 09:07:34 +0000] [1984] [INFO] Booting worker with pid: 1984
+[2025-10-14 09:07:34 +0000] [1985] [INFO] Booting worker with pid: 1985
+[2025-10-14 09:07:34 +0000] [1986] [INFO] Booting worker with pid: 1986
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /admin/
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /robots.txt
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /admin/config.php
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /.env
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /api/.env
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /backend/.env
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /admin/.env
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /.env.example
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /app_dev.php/_profiler/phpinfo
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /staging/.env
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '24.233.29.101'. You may need to add '24.233.29.101' to ALLOWED_HOSTS.
+Bad Request: /
+Invalid HTTP_HOST header: 'www.devcook.cn'. You may need to add 'www.devcook.cn' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/knowledge-hub/backend/venv/lib/python3.11/site-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'www.devcook.cn'. You may need to add 'www.devcook.cn' to ALLOWED_HOSTS.
+Bad Request: /
+[2025-10-14 11:10:14 +0000] [1983] [INFO] Handling signal: term
+[2025-10-14 11:10:14 +0000] [1985] [INFO] Worker exiting (pid: 1985)
+[2025-10-14 11:10:14 +0000] [1986] [INFO] Worker exiting (pid: 1986)
+[2025-10-14 11:10:14 +0000] [1984] [INFO] Worker exiting (pid: 1984)
+[2025-10-14 11:10:14 +0000] [1983] [INFO] Shutting down: Master
+[2025-10-14 11:10:15 +0000] [2088] [INFO] Starting gunicorn 23.0.0
+[2025-10-14 11:10:15 +0000] [2088] [INFO] Listening at: http://127.0.0.1:8000 (2088)
+[2025-10-14 11:10:15 +0000] [2088] [INFO] Using worker: sync
+[2025-10-14 11:10:15 +0000] [2089] [INFO] Booting worker with pid: 2089
+[2025-10-14 11:10:15 +0000] [2090] [INFO] Booting worker with pid: 2090
+[2025-10-14 11:10:15 +0000] [2091] [INFO] Booting worker with pid: 2091
+[2025-10-14 11:10:56 +0000] [2088] [INFO] Handling signal: term
+[2025-10-14 11:10:56 +0000] [2090] [INFO] Worker exiting (pid: 2090)
+[2025-10-14 11:10:56 +0000] [2089] [INFO] Worker exiting (pid: 2089)
+[2025-10-14 11:10:56 +0000] [2091] [INFO] Worker exiting (pid: 2091)
+[2025-10-14 11:10:57 +0000] [2088] [INFO] Shutting down: Master
+[2025-10-14 11:10:57 +0000] [2104] [INFO] Starting gunicorn 23.0.0
+[2025-10-14 11:10:57 +0000] [2104] [INFO] Listening at: http://127.0.0.1:8000 (2104)
+[2025-10-14 11:10:57 +0000] [2104] [INFO] Using worker: sync
+[2025-10-14 11:10:57 +0000] [2105] [INFO] Booting worker with pid: 2105
+[2025-10-14 11:10:57 +0000] [2106] [INFO] Booting worker with pid: 2106
+[2025-10-14 11:10:57 +0000] [2107] [INFO] Booting worker with pid: 2107
+[2025-10-15 12:04:09 +0000] [2104] [INFO] Handling signal: term
+[2025-10-15 12:04:09 +0000] [2106] [INFO] Worker exiting (pid: 2106)
+[2025-10-15 12:04:09 +0000] [2105] [INFO] Worker exiting (pid: 2105)
+[2025-10-15 12:04:09 +0000] [2107] [INFO] Worker exiting (pid: 2107)
+[2025-10-15 12:04:10 +0000] [2104] [INFO] Shutting down: Master
+[2025-10-15 12:04:10 +0000] [4177] [INFO] Starting gunicorn 23.0.0
+[2025-10-15 12:04:10 +0000] [4177] [INFO] Listening at: http://127.0.0.1:8000 (4177)
+[2025-10-15 12:04:10 +0000] [4177] [INFO] Using worker: sync
+[2025-10-15 12:04:10 +0000] [4178] [INFO] Booting worker with pid: 4178
+[2025-10-15 12:04:10 +0000] [4179] [INFO] Booting worker with pid: 4179
+[2025-10-15 12:04:10 +0000] [4180] [INFO] Booting worker with pid: 4180
+[2025-10-15 12:04:16 +0000] [4177] [INFO] Handling signal: term
+[2025-10-15 12:04:16 +0000] [4178] [INFO] Worker exiting (pid: 4178)
+[2025-10-15 12:04:16 +0000] [4179] [INFO] Worker exiting (pid: 4179)
+[2025-10-15 12:04:16 +0000] [4180] [INFO] Worker exiting (pid: 4180)
+[2025-10-15 12:04:16 +0000] [4177] [INFO] Shutting down: Master
+[2025-10-15 12:04:17 +0000] [4184] [INFO] Starting gunicorn 23.0.0
+[2025-10-15 12:04:17 +0000] [4184] [INFO] Listening at: http://127.0.0.1:8000 (4184)
+[2025-10-15 12:04:17 +0000] [4184] [INFO] Using worker: sync
+[2025-10-15 12:04:17 +0000] [4185] [INFO] Booting worker with pid: 4185
+[2025-10-15 12:04:17 +0000] [4186] [INFO] Booting worker with pid: 4186
+[2025-10-15 12:04:17 +0000] [4187] [INFO] Booting worker with pid: 4187
