@@ -3,7 +3,8 @@
 __pycache__/
 *.sqlite3
 venv/
-.env
+.env.dev
+.env.prod
 
 # Vue
 node_modules/
