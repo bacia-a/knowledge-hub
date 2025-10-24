@@ -1,10 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt.views import TokenRefreshView,TokenObtainPairView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('users.urls')),
-    # 暂时注释掉有问题的路由
-    # path('api/', include('categories.urls')),
-    # path('api/', include('articles.urls')),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/categories/', include('categories.urls')),
+    path('api/articles/', include('articles.urls')),
 ]
