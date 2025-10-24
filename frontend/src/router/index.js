@@ -12,17 +12,25 @@ const routes = [
     component: () => import('@/views/UserRegister.vue')
   },
   {
-    path: '/',
-    name: 'UserHome',
-    component: () => import('@/views/UserHome.vue'),
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/articles',
-    name: 'UserArticles',
-    component: () => import('@/views/UserArticles.vue'),
-    meta: { requiresAuth: true }
-  }
+  path: '/',
+  component: () => import('@/components/CLayout.vue'),  // 使用 Layout 组件
+  meta: { requiresAuth: true },
+  children: [
+    {
+      path: '',
+      name: 'Home',
+      component: () => import('@/views/UserHome.vue')  // 纯内容组件
+    },
+    {
+      path: 'articles',
+      name: 'Articles',
+      component: () => import('@/views/UserArticles.vue')  // 纯内容组件
+    },
+    { path: '/categories',
+      name: 'Categories',
+      component: () => import('@/views/UserCategories.vue')}
+  ]
+}
 ]
 
 const router = createRouter({

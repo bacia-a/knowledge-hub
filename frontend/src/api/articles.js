@@ -29,3 +29,10 @@ export const deleteArticle = (id) => {
     method: 'delete'
   })
 }
+
+export const getArticle = (id) => {
+  return request({
+    url: `/api/articles/articles/${id}/`,
+    method: 'get'
+  })
+}

@@ -14,3 +14,18 @@ export const createCategory = (data) => {
     data
   })
 }
+
+export const updateCategory = (id, data) => {
+  return request({
+    url: `/api/categories/categories/${id}/`,
+    method: 'put',
+    data
+  })
+}
+
+export const deleteCategory = (id) => {
+  return request({
+    url: `/api/categories/categories/${id}/`,
+    method: 'delete'
+  })
+}

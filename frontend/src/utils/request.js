@@ -9,6 +9,9 @@ const request = axios.create({
 // 请求拦截器
 request.interceptors.request.use(
   (config) => {
+    console.log('请求:', config.method?.toUpperCase(), config.url)
+    console.log('请求数据:', config.data)
+
     const authStore = useAuthStore()
     if (authStore.token) {
       config.headers.Authorization = `Bearer ${authStore.token}`
@@ -23,17 +26,12 @@ request.interceptors.request.use(
 // 响应拦截器
 request.interceptors.response.use(
   (response) => {
+    console.log('响应:', response.config.url, response.data)
     return response.data
   },
   (error) => {
-    if (error.response?.status === 401) {
-      const authStore = useAuthStore()
-      authStore.logout()
-      // 可以跳转到登录页
-      window.location.href = '/login'
-    }
+    console.error('请求错误:', error.response?.data || error.message)
     return Promise.reject(error)
   }
 )
-
 export default request

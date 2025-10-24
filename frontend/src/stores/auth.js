@@ -22,14 +22,16 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = ''
     isAuthenticated.value = false
     localStorage.removeItem('token')
+    // 可以调用后端退出接口
+    // apiLogout()
   }
 
-const loginUser = async (credentials) => {
-  const response = await login(credentials)
-  setToken(response.access)
-  setUser(response.user)
-  return response
-}
+  const loginUser = async (credentials) => {
+    const response = await login(credentials)
+    setToken(response.access)
+    setUser(response.user)
+    return response
+  }
 
   const registerUser = async (userData) => {
     const response = await register(userData)
@@ -38,8 +40,8 @@ const loginUser = async (credentials) => {
 
   const fetchUserProfile = async () => {
     if (token.value) {
-      const userData = await getProfile()
-      setUser(userData)
+        const userData = await getProfile()
+        setUser(userData)
     }
   }
 
