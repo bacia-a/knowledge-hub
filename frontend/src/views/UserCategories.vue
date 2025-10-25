@@ -87,9 +87,8 @@ const loadCategories = async () => {
   try {
     const response = await getCategories()
     categories.value = response
-    console.log('分类列表:', response)
   } catch (error) {
-    console.error('加载分类错误:', error)
+    console.error(error)
     ElMessage.error('加载分类失败')
   } finally {
     loading.value = false
@@ -119,7 +118,7 @@ const submitCategory = async () => {
     resetForm()
     loadCategories()
   } catch (error) {
-    console.error('操作分类错误:', error)
+    console.error(error)
     ElMessage.error(editMode.value ? '更新失败' : '创建失败')
   } finally {
     submitting.value = false

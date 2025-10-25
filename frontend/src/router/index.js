@@ -26,9 +26,16 @@ const routes = [
       name: 'Articles',
       component: () => import('@/views/UserArticles.vue')  // 纯内容组件
     },
-    { path: '/categories',
+    {
+      path: '/categories',
       name: 'Categories',
-      component: () => import('@/views/UserCategories.vue')}
+      component: () => import('@/views/UserCategories.vue')
+    },
+    {
+      path: '/article/:id',
+      name: 'ArticleDetail',
+      component: () => import('@/views/ArticleDetail.vue'),
+    }
   ]
 }
 ]

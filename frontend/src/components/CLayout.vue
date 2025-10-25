@@ -1,5 +1,10 @@
 <template>
   <div class="layout-container">
+    <!-- 全局加载遮罩 -->
+    <div v-if="globalLoading" class="global-loading">
+      <el-icon class="loading-icon"><Loading /></el-icon>
+      <span>加载中...</span>
+    </div>
     <!-- 顶部导航栏 -->
     <el-header class="header">
       <div class="header-left">
@@ -56,7 +61,9 @@ import { useRouter, useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { House, Document, Folder, User, ArrowDown } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
-
+import { ref } from 'vue'
+import { Loading } from '@element-plus/icons-vue'
+const globalLoading = ref(false)
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
@@ -81,6 +88,13 @@ const handleCommand = async (command) => {
     ElMessage.info('个人资料功能开发中...')
   }
 }
+const setGlobalLoading = (loading) => {
+  globalLoading.value = loading
+}
+
+defineExpose({
+  setGlobalLoading,
+})
 </script>
 
 <style scoped>
@@ -139,5 +153,33 @@ const handleCommand = async (command) => {
   padding: 20px;
   background: #f5f5f5;
   overflow-y: auto;
+}
+.global-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
