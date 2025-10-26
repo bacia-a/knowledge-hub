@@ -295,7 +295,6 @@ const filteredArticles = computed(() => {
 
 // 选择处理
 const handleSelectionChange = (selection) => {
-  console.log('选择的文章:', selection)
   selectedArticles.value = selection
 }
 
@@ -328,7 +327,7 @@ const batchUpdateStatus = async (status) => {
             is_public: fullArticle.is_public,
             category: fullArticle.category,
           }
-          console.log(`更新文章 ${article.id} 的数据:`, updateData)
+          // console.log(`更新文章 ${article.id} 的数据:`, updateData)
           return await updateArticle(article.id, updateData)
         } catch (error) {
           console.error(`获取文章 ${article.id} 详情失败:`, error)
@@ -450,7 +449,6 @@ const goToArticleDetail = (articleId) => {
 const quickTogglePublish = async (article) => {
   try {
     const newStatus = article.status === 'published' ? 'draft' : 'published'
-
     // 重新获取文章完整数据，确保有所有必需字段
     const fullArticle = await getArticle(article.id)
 
@@ -463,8 +461,6 @@ const quickTogglePublish = async (article) => {
       is_public: fullArticle.is_public,
       category: fullArticle.category,
     }
-
-    console.log('发送的更新数据:', updateData)
 
     await updateArticle(article.id, updateData)
     ElMessage.success(newStatus === 'published' ? '发布成功' : '已转为草稿')
@@ -489,13 +485,13 @@ const loadArticles = async () => {
   loading.value = true
   try {
     const response = await getArticles()
-    console.log('API响应数据:', response)
+    // console.log('API响应数据:', response)
     articles.value = response
-    console.log('处理后文章列表:', articles.value)
+    // console.log('处理后文章列表:', articles.value)
 
     // 确保数据正确设置
     if (articles.value && articles.value.length > 0) {
-      console.log('第一篇文章数据:', articles.value[0])
+      // console.log('第一篇文章数据:', articles.value[0])
     }
   } catch (error) {
     console.error('加载文章错误:', error)

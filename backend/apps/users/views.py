@@ -29,12 +29,12 @@ def user_login(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         if user.is_active:
-            from rest_framework_simplejwt.tokens import RefreshToken
-            refresh = RefreshToken.for_user(user)
+            # from rest_framework_simplejwt.tokens import RefreshToken
+            # refresh = RefreshToken.for_user(user)
             return Response({
                 'user': UserSerializer(user).data,
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
+                # 'refresh': str(refresh),
+                # 'access': str(refresh.access_token),
                 'message': '登录成功'
             })
         else:

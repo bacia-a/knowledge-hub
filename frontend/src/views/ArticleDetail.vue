@@ -9,8 +9,8 @@
       <div class="article-actions">
         <el-button type="primary" @click="editArticle">编辑</el-button>
         <el-button
-          @click="togglePublish"
-          :type="article.status === 'published' ? 'success' : 'warning'"
+          @click="quickTogglePublish(article)"
+          :type="article.status === 'published' ? 'warning' : 'success'"
         >
           {{ article.status === 'published' ? '取消发布' : '发布' }}
         </el-button>
@@ -54,14 +54,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { getArticle, updateArticle } from '@/api/articles'
 
 const route = useRoute()
 const router = useRouter()
 const loading = ref(false)
-
+// const articles = ref([])
 const article = ref({
   title: '',
   content: '',
@@ -79,7 +79,7 @@ const loadArticle = async () => {
     const response = await getArticle(articleId)
     article.value = response
   } catch (error) {
-    console.error('加载文章错误:', error)
+    console.error('加载文章错误1:', error)
     ElMessage.error('加载文章失败')
   } finally {
     loading.value = false
@@ -92,21 +92,71 @@ const editArticle = () => {
   ElMessage.info('请在文章列表页面点击编辑按钮进行编辑')
 }
 
-const togglePublish = async () => {
-  try {
-    const newStatus = article.value.status === 'published' ? 'draft' : 'published'
-    await updateArticle(article.value.id, {
-      status: newStatus,
-    })
+// const togglePublish = async () => {
+//   try {
+//     const newStatus = article.value.status === 'published' ? 'draft' : 'published'
+//     await updateArticle(article.value.id, {
+//       status: newStatus,
+//     })
 
-    article.value.status = newStatus
+//     article.value.status = newStatus
+//     ElMessage.success(newStatus === 'published' ? '发布成功' : '已转为草稿')
+//   } catch (error) {
+//     console.error('发布操作错误:', error)
+//     ElMessage.error('操作失败')
+//   }
+// }
+const quickTogglePublish = async (article) => {
+  try {
+    const newStatus = article.status === 'published' ? 'draft' : 'published'
+
+    // 重新获取文章完整数据，确保有所有必需字段
+    const fullArticle = await getArticle(article.id)
+
+    // 使用完整数据更新
+    const updateData = {
+      title: fullArticle.title,
+      content: fullArticle.content,
+      summary: fullArticle.summary || '',
+      status: newStatus,
+      is_public: fullArticle.is_public,
+      category: fullArticle.category,
+    }
+
+    await updateArticle(article.id, updateData)
     ElMessage.success(newStatus === 'published' ? '发布成功' : '已转为草稿')
+    await loadArticle()
   } catch (error) {
-    console.error('发布操作错误:', error)
-    ElMessage.error('操作失败')
+    console.error('快速操作错误详情:', error)
+    console.error('错误响应数据:', error.response?.data)
+
+    if (error.response?.data) {
+      const fieldErrors = Object.entries(error.response.data)
+        .map(([field, errors]) => `${field}: ${Array.isArray(errors) ? errors.join(', ') : errors}`)
+        .join('; ')
+      ElMessage.error(`操作失败: ${fieldErrors || error.response.data.detail || '未知错误'}`)
+    } else {
+      ElMessage.error('操作失败: ' + error.message)
+    }
   }
 }
-
+// const loadArticles = async () => {
+//   loading.value = true
+//   try {
+//     // const response = await getArticles()
+//     // articles.value = response
+//     // console.log('处理后文章列表:', articles.value)
+//     // 确保数据正确设置
+//     // if (articles.value && articles.value.length > 0) {
+//     //   console.log('第一篇文章数据:', articles.value[0])
+//     // }
+//   } catch (error) {
+//     console.error('加载文章错误2:', error)
+//     ElMessage.error('加载文章失败: ' + error.message)
+//   } finally {
+//     loading.value = false
+//   }
+// }
 const formatDate = (dateString) => {
   if (!dateString) return ''
   return new Date(dateString).toLocaleString('zh-CN')
