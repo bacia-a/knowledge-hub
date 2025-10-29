@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export const login = (data) => {
   return request({
-    url: '/api/auth/login/',
+    url: '/api/token/',  // 使用JWT端点
     method: 'post',
     data
   })
