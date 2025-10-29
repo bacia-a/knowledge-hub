@@ -1,3 +1,6 @@
 Django==4.2.7
 djangorestframework==3.14.0
 django-cors-headers==4.3.1
+mysqlclient>=2.1.0
+djangorestframework-simplejwt
+Pillow>=10.0.0

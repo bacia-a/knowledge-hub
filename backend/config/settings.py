@@ -33,12 +33,8 @@ SECRET_KEY = 'django-insecure-6u7y^)-pg4@ynprjx9lutc8_j*yh_=p7^+2o!lv&g^w!&jorb3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-# 从环境变量读取 ALLOWED_HOSTS
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else []
 
-# 如果环境变量为空，设置默认值
-if not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['24.233.29.101', 'kb.devcook.cn', 'www.kb.devcook.cn', 'localhost', '127.0.0.1', 'backend']
 
 
 
