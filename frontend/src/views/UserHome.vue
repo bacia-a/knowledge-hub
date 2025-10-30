@@ -77,7 +77,6 @@ import { getCategories } from '@/api/categories'
 const router = useRouter()
 const authStore = useAuthStore()
 const loading = ref(false)
-
 const recentArticles = ref([])
 const allArticles = ref([])
 const categories = ref([])

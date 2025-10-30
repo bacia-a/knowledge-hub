@@ -19,7 +19,9 @@
     "element-plus": "^2.11.5",
     "pinia": "^3.0.3",
     "vue": "^3.5.22",
-    "vue-router": "^4.6.3"
+    "vue-router": "^4.6.3",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "^5.1.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.37.0",

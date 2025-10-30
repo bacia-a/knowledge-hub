@@ -164,14 +164,8 @@
           />
         </el-form-item>
         <el-form-item label="内容" prop="content">
-          <el-input
-            v-model="articleForm.content"
-            type="textarea"
-            placeholder="请输入文章内容"
-            :rows="10"
-            show-word-limit
-            maxlength="10000"
-          />
+          <!-- 使用富文本编辑器 -->
+          <RichTextEditor v-model="articleForm.content" :height="'500px'" :min-height="'400px'" />
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="articleForm.status">
@@ -210,7 +204,7 @@ import {
   deleteArticle as deleteArticleApi,
 } from '@/api/articles'
 import { getCategories } from '@/api/categories'
-
+import RichTextEditor from '@/components/RichTextEditor.vue'
 const router = useRouter()
 const loading = ref(false)
 const showCreateDialog = ref(false)
@@ -513,20 +507,37 @@ const loadCategories = async () => {
 }
 
 // 编辑文章
-const editArticle = (article) => {
+const editArticle = async (article) => {
   editMode.value = true
   editingId.value = article.id
-  Object.assign(articleForm, {
-    title: article.title,
-    category: article.category,
-    summary: article.summary || '',
-    content: article.content,
-    status: article.status,
-    is_public: article.is_public,
-  })
-  showCreateDialog.value = true
-}
 
+  try {
+    // 先重置表单，避免显示旧数据
+    resetForm()
+
+    // 获取文章的完整数据
+    const fullArticle = await getArticle(article.id)
+
+    // 等待下一个 tick 确保 DOM 更新
+    // await nextTick()
+
+    // 设置表单数据
+    Object.assign(articleForm, {
+      title: fullArticle.title,
+      category: fullArticle.category,
+      summary: fullArticle.summary || '',
+      content: fullArticle.content || '',
+      status: fullArticle.status,
+      is_public: fullArticle.is_public,
+    })
+
+    // 最后显示对话框
+    showCreateDialog.value = true
+  } catch (error) {
+    console.error('加载文章详情失败:', error)
+    ElMessage.error('加载文章失败')
+  }
+}
 // 删除单篇文章
 const deleteArticle = async (article) => {
   try {

@@ -26,11 +26,16 @@ export const useAuthStore = defineStore('auth', () => {
     // apiLogout()
   }
 
-  const loginUser = async (credentials) => {
-    const response = await login(credentials)
-    setToken(response.access)
-    setUser(response.user)
-    return response
+ const loginUser = async (credentials) => {
+    // 1. 先获取JWT token
+    const tokenResponse = await login(credentials)
+    setToken(tokenResponse.access)
+
+    // 2. 然后用token获取用户信息
+    const userData = await getProfile()
+    setUser(userData)
+
+    return { access: tokenResponse.access, user: userData }
   }
 
   const registerUser = async (userData) => {
@@ -40,11 +45,19 @@ export const useAuthStore = defineStore('auth', () => {
 
   const fetchUserProfile = async () => {
     if (token.value) {
+      try {
         const userData = await getProfile()
         setUser(userData)
+      } catch (error) {
+        console.error('获取用户信息失败:', error)
+        // 如果token失效，清除登录状态
+        if (error.response?.status === 401) {
+          logout()
+        }
+        throw error
+      }
     }
   }
-
   return {
     user,
     token,
