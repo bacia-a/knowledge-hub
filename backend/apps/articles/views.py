@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, action, permission_classes
 from rest_framework.response import Response
@@ -101,9 +102,9 @@ def upload_image(request):
         return JsonResponse({
             'errno': 0,
             'data': {
-                'url': full_url,
+                'url': f'{settings.MEDIA_URL}{file_path}',  # 相对路径
                 'alt': image_file.name,
-                'href': full_url
+                'href': f'{settings.MEDIA_URL}{file_path}'  # 相对路径
             }
         })
         
