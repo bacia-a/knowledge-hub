@@ -6,7 +6,7 @@ venv/
 .env
 .env.dev
 .env.prod
-
+图片加载问题修复说明.md
 
 # Vue
 node_modules/

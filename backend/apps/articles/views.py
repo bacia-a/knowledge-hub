@@ -93,21 +93,25 @@ def upload_image(request):
         file_path = f'{user_dir}/{safe_filename}'
         filename = default_storage.save(file_path, image_file)
         
-        # 修复：使用相对路径而不是绝对URI
-        media_url = f'{settings.MEDIA_URL}{file_path}'
+        # 生成完整的图片URL
+        # 在开发环境中使用相对路径，在生产环境中使用完整URL
+        if settings.DEBUG:
+            # 开发环境：使用相对路径
+            image_url = f'{settings.MEDIA_URL}{file_path}'
+            if not image_url.startswith('/'):
+                image_url = '/' + image_url
+        else:
+            # 生产环境：使用完整URL
+            image_url = f'https://kb.devcook.cn{settings.MEDIA_URL}{file_path}'
         
-        # 确保MEDIA_URL以斜杠开头
-        if not media_url.startswith('/'):
-            media_url = '/' + media_url
-        
-        print(f"图片上传成功: {media_url}")  # 调试日志
+        print(f"图片上传成功: {image_url}")  # 调试日志
         
         return JsonResponse({
             'errno': 0,
             'data': {
-                'url': media_url,  # 使用相对路径
+                'url': image_url,
                 'alt': image_file.name,
-                'href': media_url  # 使用相对路径
+                'href': image_url
             }
         })
         
