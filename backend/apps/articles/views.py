@@ -50,7 +50,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
 # 修复：添加权限装饰器
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])  # 添加这行
+@permission_classes([IsAuthenticated])
 def upload_image(request):
     """
     富文本编辑器图片上传
@@ -92,19 +92,22 @@ def upload_image(request):
         # 保存文件
         file_path = f'{user_dir}/{safe_filename}'
         filename = default_storage.save(file_path, image_file)
-        file_url = default_storage.url(filename)
         
-        # 构建完整的URL
-        full_url = request.build_absolute_uri(file_url)
+        # 修复：使用相对路径而不是绝对URI
+        media_url = f'{settings.MEDIA_URL}{file_path}'
         
-        print(f"图片上传成功: {full_url}")  # 调试日志
+        # 确保MEDIA_URL以斜杠开头
+        if not media_url.startswith('/'):
+            media_url = '/' + media_url
+        
+        print(f"图片上传成功: {media_url}")  # 调试日志
         
         return JsonResponse({
             'errno': 0,
             'data': {
-                'url': f'{settings.MEDIA_URL}{file_path}',  # 相对路径
+                'url': media_url,  # 使用相对路径
                 'alt': image_file.name,
-                'href': f'{settings.MEDIA_URL}{file_path}'  # 相对路径
+                'href': media_url  # 使用相对路径
             }
         })
         
