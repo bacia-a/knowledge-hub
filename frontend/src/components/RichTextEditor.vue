@@ -1,3 +1,4 @@
+<!-- RichTextEditor.vue -->
 <template>
   <div class="rich-text-editor">
     <Toolbar
@@ -19,13 +20,15 @@
 </template>
 
 <script setup>
-import { ref, shallowRef, watch, onBeforeUnmount, nextTick } from 'vue'
+import { ref, shallowRef, watch, onBeforeUnmount, nextTick, computed } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import '@wangeditor/editor/dist/css/style.css'
+import { ElMessage } from 'element-plus'
 
 // 编辑器实例
 const editorRef = shallowRef()
 const isDestroyed = ref(false)
+const isInitialized = ref(false)
 
 // 编辑器模式
 const mode = ref('default')
@@ -40,25 +43,70 @@ const props = defineProps({
     type: String,
     default: '500px',
   },
+  minHeight: {
+    type: String,
+    default: '400px',
+  },
 })
+
+// 计算属性
+const computedMinHeight = computed(() => props.minHeight)
 
 // 工具栏配置
 const toolbarConfig = {
   excludeKeys: ['group-video', 'fullScreen'],
 }
 
-// 编辑器配置
+// 修复的编辑器配置
 const editorConfig = ref({
   placeholder: '请输入内容...',
   scroll: true,
   MENU_CONF: {
     uploadImage: {
-      server: '/api/articles/upload/image/',
+      server: `${
+        import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+      }/api/articles/upload/image/`,
       fieldName: 'image',
       maxFileSize: 2 * 1024 * 1024,
       allowedFileTypes: ['image/*'],
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+      },
+      // 自定义上传处理
+      customUpload: async (file, insertFn) => {
+        try {
+          const formData = new FormData()
+          formData.append('image', file)
+
+          const response = await fetch(
+            `${
+              import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+            }/api/articles/upload/image/`,
+            {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+              },
+              body: formData,
+            },
+          )
+
+          const result = await response.json()
+
+          if (result.errno !== 0) {
+            throw new Error(result.message || '上传失败')
+          }
+
+          // 使用Django返回的URL
+          insertFn(result.data.url, result.data.alt, result.data.href)
+        } catch (error) {
+          console.error('图片上传失败:', error)
+          ElMessage.error('图片上传失败: ' + error.message)
+        }
+      },
+      // 自定义插入
+      customInsert: (res, insertFn) => {
+        insertFn(res.data.url, res.data.alt, res.data.href)
       },
     },
   },
@@ -70,16 +118,34 @@ const editorValue = ref('')
 // 组件事件
 const emit = defineEmits(['update:modelValue', 'change', 'created', 'destroyed'])
 
-// 监听外部值变化 - 修复：只在编辑器存在时更新
+// 安全设置HTML内容
+const safeSetHtml = (html) => {
+  if (!editorRef.value || isDestroyed.value || !editorRef.value.setHtml) {
+    console.warn('编辑器未就绪，无法设置内容')
+    return false
+  }
+
+  try {
+    // 延迟设置确保编辑器完全初始化
+    setTimeout(() => {
+      if (editorRef.value && !isDestroyed.value) {
+        editorRef.value.setHtml(html || '')
+        editorValue.value = html || ''
+      }
+    }, 100)
+    return true
+  } catch (error) {
+    console.error('设置编辑器内容失败:', error)
+    return false
+  }
+}
+
+// 监听外部值变化
 watch(
   () => props.modelValue,
   (newVal) => {
-    if (newVal !== editorValue.value && !isDestroyed.value) {
-      editorValue.value = newVal
-      // 如果编辑器已经创建，手动设置内容
-      if (editorRef.value && editorRef.value.setHtml) {
-        editorRef.value.setHtml(newVal)
-      }
+    if (newVal !== editorValue.value && !isDestroyed.value && isInitialized.value) {
+      safeSetHtml(newVal)
     }
   },
   { immediate: true },
@@ -87,7 +153,7 @@ watch(
 
 // 监听编辑器内容变化
 watch(editorValue, (newVal) => {
-  if (!isDestroyed.value) {
+  if (!isDestroyed.value && isInitialized.value) {
     emit('update:modelValue', newVal)
   }
 })
@@ -103,10 +169,13 @@ const handleChange = (editor) => {
 const handleCreated = (editor) => {
   editorRef.value = editor
   isDestroyed.value = false
+  isInitialized.value = true
 
-  // 设置初始内容
+  // 安全设置初始内容
   if (props.modelValue) {
-    editor.setHtml(props.modelValue)
+    nextTick(() => {
+      safeSetHtml(props.modelValue)
+    })
   }
 
   // 设置编辑器高度
@@ -117,11 +186,11 @@ const handleCreated = (editor) => {
 
       if (textContainer && scrollEl) {
         textContainer.style.height = props.height
-        textContainer.style.minHeight = props.height
+        textContainer.style.minHeight = props.minHeight
         scrollEl.style.height = props.height
-        scrollEl.style.minHeight = props.height
+        scrollEl.style.minHeight = props.minHeight
       }
-    }, 100)
+    }, 200)
   })
 
   emit('created', editor)
@@ -130,6 +199,7 @@ const handleCreated = (editor) => {
 // 编辑器销毁回调
 const handleDestroyed = () => {
   isDestroyed.value = true
+  isInitialized.value = false
   emit('destroyed')
 }
 
@@ -143,28 +213,34 @@ const getHtml = () => {
   return editorRef.value && !isDestroyed.value ? editorRef.value.getHtml() : ''
 }
 
-// 设置内容 - 确保安全设置
+// 设置内容
 const setHtml = (html) => {
-  if (editorRef.value && !isDestroyed.value && editorRef.value.setHtml) {
-    editorRef.value.setHtml(html)
-    editorValue.value = html
-  }
+  return safeSetHtml(html)
 }
 
 // 清空内容
 const clearContent = () => {
   if (editorRef.value && !isDestroyed.value) {
-    editorRef.value.clear()
-    editorValue.value = ''
+    try {
+      editorRef.value.clear()
+      editorValue.value = ''
+    } catch (error) {
+      console.error('清空编辑器内容失败:', error)
+    }
   }
 }
 
 // 销毁编辑器
 const destroyEditor = () => {
   if (editorRef.value && !isDestroyed.value) {
-    editorRef.value.destroy()
-    editorRef.value = null
-    isDestroyed.value = true
+    try {
+      editorRef.value.destroy()
+      editorRef.value = null
+      isDestroyed.value = true
+      isInitialized.value = false
+    } catch (error) {
+      console.error('销毁编辑器失败:', error)
+    }
   }
 }
 
@@ -181,6 +257,7 @@ defineExpose({
   clearContent,
   destroyEditor,
   isDestroyed,
+  isInitialized,
 })
 </script>
 
@@ -189,7 +266,7 @@ defineExpose({
   border: 1px solid #dcdfe6;
   border-radius: 4px;
   overflow: hidden;
-  min-height: v-bind(computedMinHeight); /* 使用计算属性 */
+  min-height: v-bind(computedMinHeight);
 }
 
 .editor-toolbar {
@@ -199,7 +276,7 @@ defineExpose({
 
 /* 深度选择器修改编辑器内部样式 */
 :deep(.w-e-text-container) {
-  min-height: 100%;
+  min-height: v-bind(computedMinHeight);
 }
 
 :deep(.w-e-scroll) {

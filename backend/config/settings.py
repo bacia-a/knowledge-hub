@@ -31,7 +31,7 @@ SIMPLE_JWT = {
 SECRET_KEY = 'django-insecure-6u7y^)-pg4@ynprjx9lutc8_j*yh_=p7^+2o!lv&g^w!&jorb3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = os.environ.get('DEBUG', 'true').lower() == 'true'
 
 
 ALLOWED_HOSTS = ['24.233.29.101', 'kb.devcook.cn', 'www.kb.devcook.cn', 'localhost', '127.0.0.1', 'backend']
@@ -154,7 +154,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+# Media files配置
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 

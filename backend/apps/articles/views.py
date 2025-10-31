@@ -1,5 +1,5 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import api_view, action
+from rest_framework.decorators import api_view, action, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.core.files.storage import default_storage
@@ -11,7 +11,7 @@ from .models import Article
 from .serializers import ArticleListSerializer, ArticleDetailSerializer
 
 class ArticleViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]  # 类级别的权限设置
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Article.objects.filter(author=self.request.user)
@@ -47,60 +47,69 @@ class ArticleViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(article)
         return Response(serializer.data)
 
-# 独立的图片上传视图函数
+# 修复：添加权限装饰器
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])  # 添加这行
 def upload_image(request):
     """
     富文本编辑器图片上传
     """
-    # 手动检查认证，因为这是独立视图函数
-    if not request.user.is_authenticated:
+    try:
+        if 'image' not in request.FILES:
+            return JsonResponse({
+                'errno': 1,
+                'message': '没有上传文件'
+            }, status=400)
+        
+        image_file = request.FILES['image']
+        
+        # 验证文件类型
+        allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+        if image_file.content_type not in allowed_types:
+            return JsonResponse({
+                'errno': 1,
+                'message': '不支持的文件类型，仅支持 JPEG、PNG、GIF、WebP'
+            }, status=400)
+        
+        # 验证文件大小 (2MB)
+        if image_file.size > 2 * 1024 * 1024:
+            return JsonResponse({
+                'errno': 1,
+                'message': '文件大小不能超过2MB'
+            }, status=400)
+        
+        # 生成安全的文件名
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
+        file_extension = os.path.splitext(image_file.name)[1].lower()
+        safe_filename = f'editor_{timestamp}{file_extension}'
+        
+        # 创建用户目录
+        user_dir = f'editor_images/{request.user.id}'
+        if not os.path.exists(os.path.join('media', user_dir)):
+            os.makedirs(os.path.join('media', user_dir), exist_ok=True)
+        
+        # 保存文件
+        file_path = f'{user_dir}/{safe_filename}'
+        filename = default_storage.save(file_path, image_file)
+        file_url = default_storage.url(filename)
+        
+        # 构建完整的URL
+        full_url = request.build_absolute_uri(file_url)
+        
+        print(f"图片上传成功: {full_url}")  # 调试日志
+        
         return JsonResponse({
-            'errno': 1,
-            'message': '未认证用户'
-        }, status=401)
-    
-    if 'image' not in request.FILES:
-        return JsonResponse({
-            'errno': 1,
-            'message': '没有上传文件'
+            'errno': 0,
+            'data': {
+                'url': full_url,
+                'alt': image_file.name,
+                'href': full_url
+            }
         })
-    
-    image_file = request.FILES['image']
-    
-    # 验证文件类型
-    allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
-    if image_file.content_type not in allowed_types:
+        
+    except Exception as e:
+        print(f"图片上传错误: {str(e)}")
         return JsonResponse({
             'errno': 1,
-            'message': '不支持的文件类型'
-        })
-    
-    # 验证文件大小 (2MB)
-    if image_file.size > 2 * 1024 * 1024:
-        return JsonResponse({
-            'errno': 1,
-            'message': '文件大小不能超过2MB'
-        })
-    
-    # 生成安全的文件名
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    file_extension = os.path.splitext(image_file.name)[1]
-    safe_filename = f'{timestamp}{file_extension}'
-    
-    # 保存文件
-    file_path = f'editor_images/{request.user.id}/{safe_filename}'
-    filename = default_storage.save(file_path, image_file)
-    file_url = default_storage.url(filename)
-    
-    # 构建完整的URL
-    full_url = request.build_absolute_uri(file_url)
-    
-    return JsonResponse({
-        'errno': 0,
-        'data': {
-            'url': full_url,
-            'alt': image_file.name,
-            'href': full_url
-        }
-    })
+            'message': f'上传失败: {str(e)}'
+        }, status=500)

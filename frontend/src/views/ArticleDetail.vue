@@ -330,6 +330,19 @@ const handleEditorCreated = (editor) => {
 onMounted(() => {
   loadArticle()
   loadCategories()
+
+  // 监听图片加载错误
+  document.addEventListener(
+    'error',
+    (e) => {
+      if (e.target.tagName === 'IMG') {
+        console.error('图片加载失败:', e.target.src)
+        // 可以设置默认图片或隐藏
+        e.target.style.display = 'none'
+      }
+    },
+    true,
+  )
 })
 </script>
 
@@ -451,5 +464,20 @@ onMounted(() => {
   padding: 2px 4px;
   border-radius: 3px;
   font-family: 'Courier New', monospace;
+}
+.content-body :deep(img) {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px 0;
+}
+
+/* 添加图片加载错误处理 */
+.content-body :deep(img[src='']) {
+  display: none;
+}
+
+.content-body :deep(img:not([src])) {
+  display: none;
 }
 </style>

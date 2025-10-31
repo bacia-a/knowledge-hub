@@ -183,23 +183,20 @@
 
       <template #footer>
         <el-button @click="showCreateDialog = false">取消</el-button>
-        <el-button type="primary" @click="submitArticle" :loading="submitting">
-          {{ editMode ? '更新' : '创建' }}
-        </el-button>
+        <el-button type="primary" @click="submitArticle" :loading="submitting"> 更新 </el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, computed, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Plus, Check, Edit, Delete, Close } from '@element-plus/icons-vue'
 import {
   getArticles,
   getArticle,
-  createArticle,
   updateArticle,
   deleteArticle as deleteArticleApi,
 } from '@/api/articles'
@@ -512,27 +509,30 @@ const editArticle = async (article) => {
   editingId.value = article.id
 
   try {
-    // 先重置表单，避免显示旧数据
+    // 先重置表单
     resetForm()
 
     // 获取文章的完整数据
     const fullArticle = await getArticle(article.id)
 
-    // 等待下一个 tick 确保 DOM 更新
-    // await nextTick()
-
-    // 设置表单数据
+    // 设置表单数据（先不设置content）
     Object.assign(articleForm, {
       title: fullArticle.title,
       category: fullArticle.category,
       summary: fullArticle.summary || '',
-      content: fullArticle.content || '',
       status: fullArticle.status,
       is_public: fullArticle.is_public,
     })
 
-    // 最后显示对话框
+    // 显示对话框
     showCreateDialog.value = true
+
+    // 等待编辑器初始化后设置内容
+    await nextTick()
+    await new Promise((resolve) => setTimeout(resolve, 300))
+
+    // 最后设置内容
+    articleForm.content = fullArticle.content || ''
   } catch (error) {
     console.error('加载文章详情失败:', error)
     ElMessage.error('加载文章失败')
@@ -554,7 +554,7 @@ const deleteArticle = async (article) => {
   }
 }
 
-// 提交文章（创建或更新）
+// 更新文章
 const submitArticle = async () => {
   if (!articleFormRef.value) return
 
@@ -564,22 +564,17 @@ const submitArticle = async () => {
 
     submitting.value = true
 
-    if (editMode.value) {
-      await updateArticle(editingId.value, articleForm)
-      ElMessage.success('更新成功')
-    } else {
-      await createArticle(articleForm)
-      ElMessage.success('创建成功')
-    }
+    // 直接更新，不需要判断模式
+    await updateArticle(editingId.value, articleForm)
+    ElMessage.success('更新成功')
 
+    // 关闭对话框并刷新列表
     showCreateDialog.value = false
     resetForm()
     await loadArticles()
   } catch (error) {
-    console.error('操作文章错误:', error)
-    ElMessage.error(
-      editMode.value ? '更新失败' : '创建失败: ' + (error.response?.data?.detail || error.message),
-    )
+    console.error('更新文章错误:', error)
+    ElMessage.error('更新失败: ' + (error.response?.data?.detail || error.message))
   } finally {
     submitting.value = false
   }
@@ -598,8 +593,6 @@ const resetForm = () => {
     status: 'draft',
     is_public: true,
   })
-  editMode.value = false
-  editingId.value = null
 }
 
 // 初始化加载
