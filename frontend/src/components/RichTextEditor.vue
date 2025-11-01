@@ -126,13 +126,38 @@ const safeSetHtml = (html) => {
   }
 
   try {
-    // 延迟设置确保编辑器完全初始化
-    setTimeout(() => {
+    // 使用nextTick确保DOM更新完成
+    nextTick(() => {
       if (editorRef.value && !isDestroyed.value) {
-        editorRef.value.setHtml(html || '')
-        editorValue.value = html || ''
+        try {
+          // 先清空编辑器，避免数据结构冲突
+          editorRef.value.clear()
+
+          // 设置新的HTML内容
+          const cleanHtml = html || ''
+          editorRef.value.setHtml(cleanHtml)
+          editorValue.value = cleanHtml
+        } catch (innerError) {
+          console.error('设置编辑器内容失败:', innerError)
+          // 如果设置失败，尝试重新创建编辑器
+          if (editorRef.value && !isDestroyed.value) {
+            try {
+              editorRef.value.destroy()
+              // 延迟重新创建
+              setTimeout(() => {
+                if (editorRef.value && !isDestroyed.value) {
+                  editorRef.value.create()
+                  editorRef.value.setHtml(html || '')
+                  editorValue.value = html || ''
+                }
+              }, 100)
+            } catch (destroyError) {
+              console.error('重新创建编辑器失败:', destroyError)
+            }
+          }
+        }
       }
-    }, 100)
+    })
     return true
   } catch (error) {
     console.error('设置编辑器内容失败:', error)
@@ -171,12 +196,25 @@ const handleCreated = (editor) => {
   isDestroyed.value = false
   isInitialized.value = true
 
-  // 安全设置初始内容
-  if (props.modelValue) {
-    nextTick(() => {
-      safeSetHtml(props.modelValue)
-    })
-  }
+  // 延迟设置初始内容，确保编辑器完全初始化
+  setTimeout(() => {
+    if (editorRef.value && !isDestroyed.value) {
+      // 安全设置初始内容
+      if (props.modelValue) {
+        try {
+          // 先清空编辑器，避免数据结构冲突
+          editorRef.value.clear()
+          // 设置新的HTML内容
+          editorRef.value.setHtml(props.modelValue || '')
+          editorValue.value = props.modelValue || ''
+        } catch (error) {
+          console.error('设置初始内容失败:', error)
+          // 如果失败，使用安全方法
+          safeSetHtml(props.modelValue)
+        }
+      }
+    }
+  }, 300)
 
   // 设置编辑器高度
   nextTick(() => {

@@ -43,21 +43,20 @@ export const useAuthStore = defineStore('auth', () => {
     return response
   }
 
-  const fetchUserProfile = async () => {
-    if (token.value) {
-      try {
-        const userData = await getProfile()
-        setUser(userData)
-      } catch (error) {
-        console.error('获取用户信息失败:', error)
-        // 如果token失效，清除登录状态
-        if (error.response?.status === 401) {
-          logout()
-        }
-        throw error
+const fetchUserProfile = async () => {
+  if (token.value) {
+    try {
+      const userData = await getProfile()
+      setUser(userData)
+    } catch (error) {
+      console.error('获取用户信息失败:', error)
+      if (error.response?.status === 401) {
+        logout()
       }
+      throw error
     }
   }
+}
   return {
     user,
     token,
