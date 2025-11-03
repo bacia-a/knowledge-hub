@@ -480,4 +480,8 @@ onMounted(() => {
 .content-body :deep(img:not([src])) {
   display: none;
 }
+.detail-page {
+  width: 100%;
+  max-width: 100%;
+}
 </style>

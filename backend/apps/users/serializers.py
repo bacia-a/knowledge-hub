@@ -43,10 +43,20 @@ class UserLoginSerializer(serializers.Serializer):
         return data
 
 class UserSerializer(serializers.ModelSerializer):
+    avatar_url = serializers.SerializerMethodField()
+    
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio', 'avatar', 'date_joined')
-
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio', 
+                 'avatar', 'avatar_url', 'date_joined', 'last_login')
+    
+    def get_avatar_url(self, obj):
+        if obj.avatar:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.avatar.url)
+            return obj.avatar.url
+        return None
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

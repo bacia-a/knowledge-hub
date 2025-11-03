@@ -651,4 +651,8 @@ onMounted(() => {
   color: #67a8ff;
   text-decoration: underline;
 }
+.articles-page {
+  width: 100%;
+  max-width: 100%;
+}
 </style>

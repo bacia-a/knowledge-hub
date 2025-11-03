@@ -430,4 +430,8 @@ onMounted(() => {
   color: #333;
   font-weight: 500;
 }
+.profile-page {
+  width: 100%;
+  max-width: 100%;
+}
 </style>

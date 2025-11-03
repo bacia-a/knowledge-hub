@@ -174,4 +174,8 @@ onMounted(() => {
   align-items: center;
   margin-bottom: 20px;
 }
+.categories-page {
+  width: 100%;
+  max-width: 100%;
+}
 </style>

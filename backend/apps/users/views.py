@@ -58,7 +58,7 @@ def user_logout(request):
 @permission_classes([IsAuthenticated])
 def user_profile(request):
     """获取用户信息"""
-    serializer = UserSerializer(request.user)
+    serializer = UserSerializer(request.user, context={'request': request})
     return Response(serializer.data)
 
 @api_view(['PUT'])
