@@ -119,48 +119,60 @@ const editorValue = ref('')
 const emit = defineEmits(['update:modelValue', 'change', 'created', 'destroyed'])
 
 // 安全设置HTML内容
-const safeSetHtml = (html) => {
+const safeSetHtml = async (html) => {
   if (!editorRef.value || isDestroyed.value || !editorRef.value.setHtml) {
     console.warn('编辑器未就绪，无法设置内容')
     return false
   }
 
   try {
-    // 使用nextTick确保DOM更新完成
-    nextTick(() => {
-      if (editorRef.value && !isDestroyed.value) {
-        try {
-          // 先清空编辑器，避免数据结构冲突
-          editorRef.value.clear()
-
-          // 设置新的HTML内容
-          const cleanHtml = html || ''
-          editorRef.value.setHtml(cleanHtml)
-          editorValue.value = cleanHtml
-        } catch (innerError) {
-          console.error('设置编辑器内容失败:', innerError)
-          // 如果设置失败，尝试重新创建编辑器
-          if (editorRef.value && !isDestroyed.value) {
-            try {
-              editorRef.value.destroy()
-              // 延迟重新创建
-              setTimeout(() => {
-                if (editorRef.value && !isDestroyed.value) {
-                  editorRef.value.create()
-                  editorRef.value.setHtml(html || '')
-                  editorValue.value = html || ''
-                }
-              }, 100)
-            } catch (destroyError) {
-              console.error('重新创建编辑器失败:', destroyError)
-            }
-          }
-        }
+    // 生产环境需要更彻底的清理
+    if (import.meta.env.PROD) {
+      // 清空操作历史
+      if (editorRef.value.history) {
+        editorRef.value.history.undos = []
+        editorRef.value.history.redos = []
       }
-    })
+
+      // 重置选择状态
+      if (editorRef.value.selection) {
+        editorRef.value.deselect()
+      }
+    }
+
+    // 清空内容
+    editorRef.value.clear()
+
+    // 生产环境需要更长的延迟
+    const delay = import.meta.env.PROD ? 100 : 50
+    await new Promise((resolve) => setTimeout(resolve, delay))
+
+    // 设置内容
+    const cleanHtml = html || ''
+    editorRef.value.setHtml(cleanHtml)
+    editorValue.value = cleanHtml
+
     return true
   } catch (error) {
     console.error('设置编辑器内容失败:', error)
+
+    // 生产环境的重试逻辑
+    if (import.meta.env.PROD) {
+      try {
+        await destroyEditor()
+        await new Promise((resolve) => setTimeout(resolve, 200))
+
+        if (editorRef.value && !isDestroyed.value) {
+          editorRef.value.create()
+          await new Promise((resolve) => setTimeout(resolve, 300))
+          editorRef.value.setHtml(html || '')
+          editorValue.value = html || ''
+        }
+      } catch (retryError) {
+        console.error('生产环境重试失败:', retryError)
+      }
+    }
+
     return false
   }
 }
