@@ -76,7 +76,6 @@ knowledge-hub/
 
 ### 后端部署
 
-1. **克隆项目**
 ```bash
 git clone https://github.com/bacia-a/knowledge-hub.git
 cd knowledge-hub/backend
