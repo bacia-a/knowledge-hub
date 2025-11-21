@@ -47,6 +47,7 @@ Knowledge Hub 是一个现代化的个人知识管理系统，集成了 AI 助�
 - **富文本编辑器**：WangEditor
 
 ## 项目结构
+```bash
 knowledge-hub/
 ├── backend/ # Django 后端
 │ ├── apps/
@@ -65,7 +66,7 @@ knowledge-hub/
 │ └── router/ # 路由配置
 ├── package.json
 └── vite.config.js
-
+```
 ## 快速开始
 
 ### 环境要求
@@ -77,23 +78,17 @@ knowledge-hub/
 
 1. **克隆项目**
 ```bash
-git clone <repository-url>
+git clone https://github.com/bacia-a/knowledge-hub.git
 cd knowledge-hub/backend
-
 pip install -r requirements.txt
-
 python manage.py migrate
-
 python manage.py createsuperuser
-
 python manage.py runserver
 ```
 
 ### 前端部署
 ```bash
 cd frontend
-
 npm install
-
 npm run dev
 ```
