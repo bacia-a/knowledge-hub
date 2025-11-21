@@ -91,6 +91,7 @@
         </div>
       </main>
     </div>
+    <AIAssistant />
   </div>
 </template>
 
@@ -110,7 +111,7 @@ import {
   Expand,
 } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
-
+import AIAssistant from '@/components/AIAssistant.vue'
 const globalLoading = ref(false)
 const router = useRouter()
 const route = useRoute()
@@ -182,7 +183,7 @@ const setGlobalLoading = (loading) => {
 // 监听用户信息变化，确保头像及时更新
 watch(
   () => authStore.user,
-  (newUser) => {
+  () => {
     // 用户信息更新时，可以在这里处理
   },
   { deep: true },

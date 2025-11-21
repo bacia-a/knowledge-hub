@@ -7,6 +7,23 @@
       :mode="mode"
       class="editor-toolbar"
     />
+    <!-- AI功能工具栏 -->
+    <div class="ai-toolbar">
+      <el-button-group>
+        <el-button size="small" @click="showAIAssistant" type="primary">
+          <el-icon><Star /></el-icon>
+          AI助手
+        </el-button>
+        <el-button size="small" @click="generateSummaryForContent">
+          <el-icon><Document /></el-icon>
+          生成摘要
+        </el-button>
+        <el-button size="small" @click="improveCurrentContent">
+          <el-icon><Edit /></el-icon>
+          优化内容
+        </el-button>
+      </el-button-group>
+    </div>
     <Editor
       :defaultConfig="editorConfig"
       :mode="mode"
@@ -16,6 +33,8 @@
       @onDestroyed="handleDestroyed"
       class="editor-content"
     />
+    <!-- AI助手组件 -->
+    <AIAssistant ref="aiAssistant" />
   </div>
 </template>
 
@@ -24,7 +43,8 @@ import { ref, shallowRef, watch, onBeforeUnmount, nextTick, computed } from 'vue
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import '@wangeditor/editor/dist/css/style.css'
 import { ElMessage } from 'element-plus'
-
+import { Star, Document, Edit } from '@element-plus/icons-vue'
+import AIAssistant from '@/components/AIAssistant.vue'
 // 编辑器实例
 const editorRef = shallowRef()
 const isDestroyed = ref(false)
@@ -281,7 +301,43 @@ const destroyEditor = () => {
     }
   }
 }
+const aiAssistant = ref()
 
+const showAIAssistant = () => {
+  if (aiAssistant.value) {
+    aiAssistant.value.showAssistant = true
+  }
+}
+
+const generateSummaryForContent = async () => {
+  const content = getText() // 获取纯文本内容
+  if (!content.trim()) {
+    ElMessage.warning('请先输入内容')
+    return
+  }
+
+  // 调用AI助手的生成摘要功能
+  if (aiAssistant.value) {
+    aiAssistant.value.currentFunction = 'summary'
+    aiAssistant.value.summaryForm.content = content
+    aiAssistant.value.showAssistant = true
+  }
+}
+
+const improveCurrentContent = async () => {
+  const content = getHtml() // 获取HTML内容
+  if (!content.trim()) {
+    ElMessage.warning('请先输入内容')
+    return
+  }
+
+  // 调用AI助手的文章优化功能
+  if (aiAssistant.value) {
+    aiAssistant.value.currentFunction = 'improve'
+    aiAssistant.value.improveForm.content = content
+    aiAssistant.value.showAssistant = true
+  }
+}
 // 组件卸载时销毁编辑器
 onBeforeUnmount(() => {
   destroyEditor()
@@ -336,5 +392,13 @@ defineExpose({
 
 :deep(.w-e-bar-divider) {
   margin: 0 8px !important;
+}
+.ai-toolbar {
+  padding: 8px 16px;
+  border-bottom: 1px solid #e6e6e6;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 </style>
