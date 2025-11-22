@@ -7,23 +7,6 @@
       :mode="mode"
       class="editor-toolbar"
     />
-    <!-- AI功能工具栏 -->
-    <div class="ai-toolbar">
-      <el-button-group>
-        <el-button size="small" @click="showAIAssistant" type="primary">
-          <el-icon><Star /></el-icon>
-          AI助手
-        </el-button>
-        <el-button size="small" @click="generateSummaryForContent">
-          <el-icon><Document /></el-icon>
-          生成摘要
-        </el-button>
-        <el-button size="small" @click="improveCurrentContent">
-          <el-icon><Edit /></el-icon>
-          优化内容
-        </el-button>
-      </el-button-group>
-    </div>
     <Editor
       :defaultConfig="editorConfig"
       :mode="mode"
@@ -33,8 +16,8 @@
       @onDestroyed="handleDestroyed"
       class="editor-content"
     />
-    <!-- AI助手组件 -->
-    <AIAssistant ref="aiAssistant" />
+    <!-- 只保留AI助手组件 -->
+    <AIAssistant />
   </div>
 </template>
 
@@ -42,9 +25,8 @@
 import { ref, shallowRef, watch, onBeforeUnmount, nextTick, computed } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import '@wangeditor/editor/dist/css/style.css'
-import { ElMessage } from 'element-plus'
-import { Star, Document, Edit } from '@element-plus/icons-vue'
 import AIAssistant from '@/components/AIAssistant.vue'
+
 // 编辑器实例
 const editorRef = shallowRef()
 const isDestroyed = ref(false)
@@ -77,7 +59,7 @@ const toolbarConfig = {
   excludeKeys: ['group-video', 'fullScreen'],
 }
 
-// 修复的编辑器配置
+// 编辑器配置
 const editorConfig = ref({
   placeholder: '请输入内容...',
   scroll: true,
@@ -92,7 +74,6 @@ const editorConfig = ref({
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
       },
-      // 自定义上传处理
       customUpload: async (file, insertFn) => {
         try {
           const formData = new FormData()
@@ -117,16 +98,10 @@ const editorConfig = ref({
             throw new Error(result.message || '上传失败')
           }
 
-          // 使用Django返回的URL
           insertFn(result.data.url, result.data.alt, result.data.href)
         } catch (error) {
           console.error('图片上传失败:', error)
-          ElMessage.error('图片上传失败: ' + error.message)
         }
-      },
-      // 自定义插入
-      customInsert: (res, insertFn) => {
-        insertFn(res.data.url, res.data.alt, res.data.href)
       },
     },
   },
@@ -141,40 +116,23 @@ const emit = defineEmits(['update:modelValue', 'change', 'created', 'destroyed']
 // 安全设置HTML内容
 const safeSetHtml = (html) => {
   if (!editorRef.value || isDestroyed.value || !editorRef.value.setHtml) {
-    console.warn('编辑器未就绪，无法设置内容')
     return false
   }
 
   try {
-    // 使用nextTick确保DOM更新完成
     nextTick(() => {
       if (editorRef.value && !isDestroyed.value) {
         try {
-          // 先清空编辑器，避免数据结构冲突
           editorRef.value.clear()
-
-          // 设置新的HTML内容
-          const cleanHtml = html || ''
-          editorRef.value.setHtml(cleanHtml)
-          editorValue.value = cleanHtml
-        } catch (innerError) {
-          console.error('设置编辑器内容失败:', innerError)
-          // 如果设置失败，尝试重新创建编辑器
-          if (editorRef.value && !isDestroyed.value) {
-            try {
-              editorRef.value.destroy()
-              // 延迟重新创建
-              setTimeout(() => {
-                if (editorRef.value && !isDestroyed.value) {
-                  editorRef.value.create()
-                  editorRef.value.setHtml(html || '')
-                  editorValue.value = html || ''
-                }
-              }, 100)
-            } catch (destroyError) {
-              console.error('重新创建编辑器失败:', destroyError)
+          setTimeout(() => {
+            if (editorRef.value && !isDestroyed.value) {
+              const cleanHtml = html || ''
+              editorRef.value.setHtml(cleanHtml)
+              editorValue.value = cleanHtml
             }
-          }
+          }, 100)
+        } catch (error) {
+          console.error('清空编辑器失败:', error)
         }
       }
     })
@@ -216,27 +174,24 @@ const handleCreated = (editor) => {
   isDestroyed.value = false
   isInitialized.value = true
 
-  // 延迟设置初始内容，确保编辑器完全初始化
   setTimeout(() => {
     if (editorRef.value && !isDestroyed.value) {
-      // 安全设置初始内容
       if (props.modelValue) {
         try {
-          // 先清空编辑器，避免数据结构冲突
           editorRef.value.clear()
-          // 设置新的HTML内容
-          editorRef.value.setHtml(props.modelValue || '')
-          editorValue.value = props.modelValue || ''
+          setTimeout(() => {
+            if (editorRef.value && !isDestroyed.value) {
+              editorRef.value.setHtml(props.modelValue || '')
+              editorValue.value = props.modelValue || ''
+            }
+          }, 200)
         } catch (error) {
           console.error('设置初始内容失败:', error)
-          // 如果失败，使用安全方法
-          safeSetHtml(props.modelValue)
         }
       }
     }
-  }, 300)
+  }, 500)
 
-  // 设置编辑器高度
   nextTick(() => {
     setTimeout(() => {
       const textContainer = document.querySelector('.w-e-text-container')
@@ -301,43 +256,7 @@ const destroyEditor = () => {
     }
   }
 }
-const aiAssistant = ref()
 
-const showAIAssistant = () => {
-  if (aiAssistant.value) {
-    aiAssistant.value.showAssistant = true
-  }
-}
-
-const generateSummaryForContent = async () => {
-  const content = getText() // 获取纯文本内容
-  if (!content.trim()) {
-    ElMessage.warning('请先输入内容')
-    return
-  }
-
-  // 调用AI助手的生成摘要功能
-  if (aiAssistant.value) {
-    aiAssistant.value.currentFunction = 'summary'
-    aiAssistant.value.summaryForm.content = content
-    aiAssistant.value.showAssistant = true
-  }
-}
-
-const improveCurrentContent = async () => {
-  const content = getHtml() // 获取HTML内容
-  if (!content.trim()) {
-    ElMessage.warning('请先输入内容')
-    return
-  }
-
-  // 调用AI助手的文章优化功能
-  if (aiAssistant.value) {
-    aiAssistant.value.currentFunction = 'improve'
-    aiAssistant.value.improveForm.content = content
-    aiAssistant.value.showAssistant = true
-  }
-}
 // 组件卸载时销毁编辑器
 onBeforeUnmount(() => {
   destroyEditor()
@@ -392,13 +311,5 @@ defineExpose({
 
 :deep(.w-e-bar-divider) {
   margin: 0 8px !important;
-}
-.ai-toolbar {
-  padding: 8px 16px;
-  border-bottom: 1px solid #e6e6e6;
-  background: #f8f9fa;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 </style>

@@ -7,7 +7,7 @@
           <el-icon><Search /></el-icon>
           高级搜索
         </el-button>
-        <el-button type="primary" @click="showCreateDialog = true">
+        <el-button type="primary" @click="handleCreateArticle">
           <el-icon><Plus /></el-icon>
           新建文章
         </el-button>
@@ -137,7 +137,7 @@
       :title="editMode ? '编辑文章' : '新建文章'"
       v-model="showCreateDialog"
       width="800px"
-      @closed="resetForm"
+      @closed="handleDialogClose"
     >
       <el-form :model="articleForm" :rules="articleRules" ref="articleFormRef">
         <el-form-item label="标题" prop="title">
@@ -183,7 +183,13 @@
 
       <template #footer>
         <el-button @click="showCreateDialog = false">取消</el-button>
-        <el-button type="primary" @click="submitArticle" :loading="submitting"> 更新 </el-button>
+        <el-button
+          type="primary"
+          @click="editMode ? submitArticle() : createArticle()"
+          :loading="submitting"
+        >
+          {{ editMode ? '更新' : '创建' }}
+        </el-button>
       </template>
     </el-dialog>
   </div>
@@ -197,11 +203,13 @@ import { Search, Plus, Check, Edit, Delete, Close } from '@element-plus/icons-vu
 import {
   getArticles,
   getArticle,
+  createArticle as createArticleApi,
   updateArticle,
   deleteArticle as deleteArticleApi,
 } from '@/api/articles'
 import { getCategories } from '@/api/categories'
 import RichTextEditor from '@/components/RichTextEditor.vue'
+
 const router = useRouter()
 const loading = ref(false)
 const showCreateDialog = ref(false)
@@ -232,7 +240,7 @@ const articleForm = reactive({
   is_public: true,
 })
 
-// 分页配置 - 使用单独的 ref 避免响应式问题
+// 分页配置
 const pagination = reactive({
   currentPage: 1,
   pageSize: 10,
@@ -250,7 +258,7 @@ const articleRules = {
   ],
 }
 
-// 计算属性：过滤和分页文章 - 返回包含数据和总数的对象
+// 计算属性：过滤和分页文章
 const filteredArticles = computed(() => {
   let filtered = articles.value
 
@@ -308,7 +316,6 @@ const batchUpdateStatus = async (status) => {
     const results = await Promise.allSettled(
       selectedArticles.value.map(async (article) => {
         try {
-          // 为每篇文章获取完整数据
           const fullArticle = await getArticle(article.id)
           const updateData = {
             title: fullArticle.title,
@@ -318,7 +325,6 @@ const batchUpdateStatus = async (status) => {
             is_public: fullArticle.is_public,
             category: fullArticle.category,
           }
-          // console.log(`更新文章 ${article.id} 的数据:`, updateData)
           return await updateArticle(article.id, updateData)
         } catch (error) {
           console.error(`获取文章 ${article.id} 详情失败:`, error)
@@ -327,7 +333,6 @@ const batchUpdateStatus = async (status) => {
       }),
     )
 
-    // 检查结果
     const successful = results.filter((result) => result.status === 'fulfilled').length
     const failed = results.filter((result) => result.status === 'rejected').length
 
@@ -348,7 +353,6 @@ const batchUpdateStatus = async (status) => {
     clearSelection()
     await loadArticles()
   } catch (error) {
-    // 用户取消操作
     console.log('用户取消批量操作', error)
   } finally {
     loading.value = false
@@ -440,10 +444,8 @@ const goToArticleDetail = (articleId) => {
 const quickTogglePublish = async (article) => {
   try {
     const newStatus = article.status === 'published' ? 'draft' : 'published'
-    // 重新获取文章完整数据，确保有所有必需字段
     const fullArticle = await getArticle(article.id)
 
-    // 使用完整数据更新
     const updateData = {
       title: fullArticle.title,
       content: fullArticle.content,
@@ -476,14 +478,7 @@ const loadArticles = async () => {
   loading.value = true
   try {
     const response = await getArticles()
-    // console.log('API响应数据:', response)
     articles.value = response
-    // console.log('处理后文章列表:', articles.value)
-
-    // 确保数据正确设置
-    if (articles.value && articles.value.length > 0) {
-      // console.log('第一篇文章数据:', articles.value[0])
-    }
   } catch (error) {
     console.error('加载文章错误:', error)
     ElMessage.error('加载文章失败: ' + error.message)
@@ -503,19 +498,25 @@ const loadCategories = async () => {
   }
 }
 
+// 新建文章按钮点击事件
+const handleCreateArticle = () => {
+  editMode.value = false
+  editingId.value = null
+  resetForm()
+  showCreateDialog.value = true
+  console.log('新建文章模式，editMode:', editMode.value)
+}
+
 // 编辑文章
 const editArticle = async (article) => {
   editMode.value = true
   editingId.value = article.id
 
   try {
-    // 先重置表单
     resetForm()
 
-    // 获取文章的完整数据
     const fullArticle = await getArticle(article.id)
 
-    // 设置表单数据（先不设置content）
     Object.assign(articleForm, {
       title: fullArticle.title,
       category: fullArticle.category,
@@ -524,20 +525,20 @@ const editArticle = async (article) => {
       is_public: fullArticle.is_public,
     })
 
-    // 显示对话框
     showCreateDialog.value = true
 
-    // 等待编辑器初始化后设置内容
     await nextTick()
     await new Promise((resolve) => setTimeout(resolve, 300))
 
-    // 最后设置内容
     articleForm.content = fullArticle.content || ''
+
+    console.log('编辑文章模式，editMode:', editMode.value, 'editingId:', editingId.value)
   } catch (error) {
     console.error('加载文章详情失败:', error)
     ElMessage.error('加载文章失败')
   }
 }
+
 // 删除单篇文章
 const deleteArticle = async (article) => {
   try {
@@ -554,33 +555,96 @@ const deleteArticle = async (article) => {
   }
 }
 
-// 更新文章
-const submitArticle = async () => {
+// 新建文章
+const createArticle = async () => {
   if (!articleFormRef.value) return
 
   try {
+    if (!articleForm.title?.trim()) {
+      ElMessage.error('请输入文章标题')
+      return
+    }
+
+    if (!articleForm.content?.trim()) {
+      ElMessage.error('请输入文章内容')
+      return
+    }
+
     const valid = await articleFormRef.value.validate()
     if (!valid) return
 
     submitting.value = true
 
-    // 直接更新，不需要判断模式
-    await updateArticle(editingId.value, articleForm)
-    ElMessage.success('更新成功')
+    await createArticleApi(articleForm)
+    ElMessage.success('创建成功')
 
-    // 关闭对话框并刷新列表
     showCreateDialog.value = false
-    resetForm()
+    handleDialogClose()
     await loadArticles()
   } catch (error) {
-    console.error('更新文章错误:', error)
-    ElMessage.error('更新失败: ' + (error.response?.data?.detail || error.message))
+    console.error('创建文章错误:', error)
+    ElMessage.error('创建失败: ' + (error.response?.data?.detail || error.message))
   } finally {
     submitting.value = false
   }
 }
 
-// 重置表单
+// 更新文章
+const submitArticle = async () => {
+  if (!articleFormRef.value) return
+
+  try {
+    if (!articleForm.title?.trim()) {
+      ElMessage.error('请输入文章标题')
+      return
+    }
+
+    if (!articleForm.content?.trim()) {
+      ElMessage.error('请输入文章内容')
+      return
+    }
+
+    const valid = await articleFormRef.value.validate()
+    if (!valid) return
+
+    submitting.value = true
+
+    if (!editingId.value) {
+      ElMessage.error('文章ID不存在，无法更新')
+      return
+    }
+
+    console.log('正在更新文章:', editingId.value, articleForm)
+
+    await updateArticle(editingId.value, articleForm)
+    ElMessage.success('更新成功')
+
+    showCreateDialog.value = false
+    handleDialogClose()
+    await loadArticles()
+  } catch (error) {
+    console.error('更新文章错误:', error)
+    console.error('错误详情:', error.response?.data)
+
+    if (error.response?.data) {
+      const errorMessages = []
+      for (const [field, errors] of Object.entries(error.response.data)) {
+        if (Array.isArray(errors)) {
+          errorMessages.push(`${field}: ${errors.join(', ')}`)
+        } else {
+          errorMessages.push(`${field}: ${errors}`)
+        }
+      }
+      ElMessage.error(`更新失败: ${errorMessages.join('; ')}`)
+    } else {
+      ElMessage.error('更新失败: ' + (error.message || '未知错误'))
+    }
+  } finally {
+    submitting.value = false
+  }
+}
+
+// 重置表单（只重置表单数据）
 const resetForm = () => {
   if (articleFormRef.value) {
     articleFormRef.value.resetFields()
@@ -593,6 +657,14 @@ const resetForm = () => {
     status: 'draft',
     is_public: true,
   })
+}
+
+// 对话框关闭时的处理
+const handleDialogClose = () => {
+  resetForm()
+  editMode.value = false
+  editingId.value = null
+  showCreateDialog.value = false
 }
 
 // 初始化加载
